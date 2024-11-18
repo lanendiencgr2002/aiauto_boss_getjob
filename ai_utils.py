@@ -91,13 +91,21 @@ def AI过滤岗位(岗位信息列表,config,线程数=100):
         我的薪资范围=config['薪资范围']
         我的薪资范围=re.findall(r'\d+', 我的薪资范围)
         我的薪资范围=list(map(int, 我的薪资范围))
-        
         岗位的薪资=re.findall(r'\d+', 单个岗位信息['job_salary'])
         岗位的薪资=list(map(int, 岗位的薪资))
         if 岗位的薪资[0] < 我的薪资范围[0] or 岗位的薪资[1] > 我的薪资范围[1]:
             if "k" in 单个岗位信息['job_salary']:
                 os_utils.写入日志(f"薪资范围不匹配 岗位名称:{单个岗位信息['job_name']} 岗位薪资:{单个岗位信息['job_salary']} 我的薪资范围:{我的期望薪资}", 是否打印=False, 是否写入文件=True)
                 return None
+        # 如果一定只要实习，和是否只实习不用ai过滤
+        if config['一定只要实习吗']: #如果配置了只实习
+            if "实习" not in 单个岗位信息['job_name']: #如果岗位名称没有实习
+                return None
+            if config['实习就行不用ai过滤']: #如果不用ai过滤 如果岗位名称有实习
+                os_utils.写入日志(f"一定只要实习，且实习就行不用ai过滤，这个可以 岗位名称:{单个岗位信息['job_name']}", 是否打印=False, 是否写入文件=True)
+                return 单个岗位信息
+            
+
         # ai判断岗位是否匹配
         content = f'''你是一个经验丰富的HR，你的任务是判断当前招聘岗位和薪资水平是否和我所期望的岗位匹配。
                         请注意以下重要规则：
@@ -124,9 +132,14 @@ def AI过滤岗位(岗位信息列表,config,线程数=100):
             os_utils.写入日志(f"AI判断不匹配 岗位名称:{单个岗位信息['job_name']} 岗位薪资:{单个岗位信息['job_salary']}", 是否打印=False, 是否写入文件=True)
             return None
     过滤后的岗位列表=[]
-    with concurrent.futures.ThreadPoolExecutor(max_workers=线程数) as executor:
-        results = list(executor.map(多线程处理单个岗位, 岗位信息列表))
-        过滤后的岗位列表 = [result for result in results if result is not None]
+    if config['用多线程ai过滤和投简历']:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=线程数) as executor:
+            results = list(executor.map(多线程处理单个岗位, 岗位信息列表))
+            过滤后的岗位列表 = [result for result in results if result is not None]
+            return 过滤后的岗位列表
+    else:
+        for 单个岗位信息 in 岗位信息列表:
+            过滤后的岗位列表.append(多线程处理单个岗位(单个岗位信息))
         return 过滤后的岗位列表
 
 # 测试代码部分

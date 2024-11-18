@@ -34,10 +34,10 @@ def 登录():
     )
 
 def 开投():
-    global log_print
-    global is_really_write_log
-    投递次数=0
+    投递次数 = 0
     投递锁 = Lock()
+    检查次数锁 = Lock()
+    
     os_utils.写入统计日志(f"开始运行时间：{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}", 是否打印=log_print, 是否写入文件=is_really_write_log)
     def 处理单个岗位(单个岗位信息,新标签页对象):
         nonlocal 投递次数
@@ -46,6 +46,9 @@ def 开投():
         drissionpage_utils.打开页面(新标签页对象,单个岗位信息['job_link'])
         drissionpage_utils.等待元素加载完成(新标签页对象,'text:立即沟通')
         if drissionpage_utils.判断当前HR是否活跃(新标签页对象,config):
+            with 检查次数锁:
+                if 投递次数 > config['最大投递次数']:
+                    return False
             os_utils.写入日志(f"当前HR活跃，开始与HR沟通  岗位名字：{单个岗位信息['job_name']}", 是否打印=log_print, 是否写入文件=is_really_write_log)
             是否沟通,初步分析结果=drissionpage_utils.AI决定是否与HR沟通(新标签页对象,单个岗位信息,my_resume,config['匹配度'])
             if 是否沟通:
@@ -55,15 +58,16 @@ def 开投():
                 os_utils.写入已投递岗位(初步分析结果, 是否打印=log_print, 是否写入文件=is_really_write_log)
                 os_utils.写入已投递岗位(f"岗位名字：{单个岗位信息['job_name']} 岗位详情：{岗位详情}\n\n\n", 是否打印=log_print, 是否写入文件=is_really_write_log)
                 with 投递锁:
-                    nonlocal 投递次数
                     投递次数 += 1
                     os_utils.写入日志(f"当前投递次数：{投递次数}", 是否打印=True, 是否写入文件=is_really_write_log)
+                    if 投递次数 > config['最大投递次数']:
+                        return True
                 return True
         return False
     城市列表=config['要查询的城市']
     岗位列表=config['要查询的岗位']
     新标签页列表 = drissionpage_utils.创建多个标签页对象(page,config['标签页数量'])
-    while 投递次数<=int(config['投递完一次后最大次数']):
+    while 投递次数<=config['最大投递次数']:
         for 岗位 in 岗位列表:
             config['要查询的岗位']=岗位
             for 城市 in 城市列表:
@@ -77,22 +81,26 @@ def 开投():
                 print(f"查询岗位信息时间：{time.time()-开始时间}")
                 os_utils.写入统计日志(f"随机查询岗位信息列表个数:{len(岗位信息列表)} 时间：{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}", 是否打印=log_print, 是否写入文件=is_really_write_log)
                 os_utils.写入日志(f"随机查询岗位信息:{岗位}岗位信息列表个数:{len(岗位信息列表)}", 是否打印=log_print, 是否写入文件=is_really_write_log)
-                # os_utils.写入日志(f"岗位信息列表:{岗位信息列表}", 是否打印=log_print, 是否写入文件=is_really_write_log)
                 岗位信息列表=ai_utils.AI过滤岗位(岗位信息列表,config,线程数=100)
+                # 去掉岗位信息列表None元素
+                岗位信息列表 = [x for x in 岗位信息列表 if x is not None]
                 os_utils.写入统计日志(f"AI过滤后岗位列表个数:{len(岗位信息列表)} 时间：{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}", 是否打印=log_print, 是否写入文件=is_really_write_log)
                 os_utils.写入日志(f"AI过滤后的岗位:{岗位}岗位信息列表个数:{len(岗位信息列表)}", 是否打印=log_print, 是否写入文件=is_really_write_log)
-                # os_utils.写入日志(f"岗位信息列表:{岗位信息列表}", 是否打印=log_print, 是否写入文件=is_really_write_log)
-                with concurrent.futures.ThreadPoolExecutor(max_workers=len(新标签页列表)) as executor:
-                    futures = []
-                    for i, 单个岗位信息 in enumerate(岗位信息列表):
-                        标签页 = 新标签页列表[i % len(新标签页列表)]
-                        future = executor.submit(处理单个岗位, 单个岗位信息, 标签页)
-                        futures.append(future)
-                    concurrent.futures.wait(futures)
+                if config['用多线程ai过滤和投简历']:
+                    with concurrent.futures.ThreadPoolExecutor(max_workers=len(新标签页列表)) as executor:
+                        futures = []
+                        for i, 单个岗位信息 in enumerate(岗位信息列表):
+                            标签页 = 新标签页列表[i % len(新标签页列表)]
+                            future = executor.submit(处理单个岗位, 单个岗位信息, 标签页)
+                            futures.append(future)
+                        concurrent.futures.wait(futures)
+                else:
+                    for 单个岗位信息 in 岗位信息列表:
+                        处理单个岗位(单个岗位信息, 新标签页列表[0])
         os_utils.写入统计日志(f"投递次数：{投递次数} 时间：{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}", 是否打印=log_print, 是否写入文件=is_really_write_log)   
     for 标签页 in 新标签页列表:
         标签页.close()
-    if int(config['投递完一次后最大次数'])>0:
+    if config['最大投递次数']>0:
         os_utils.写入统计日志(f"投递次数：{投递次数} 时间：{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}", 是否打印=log_print, 是否写入文件=is_really_write_log)
 def 启动():
     if is_really_write_log:
