@@ -1,68 +1,120 @@
----
-theme: true
-print: true
-github: 'https://github.com/lanendiencgr2002'
----
+庄子发男
+出生年月：2002.08
+微信：wxid_9vp354f426mv22
+电话：14750268871
+邮箱：1277366461@qq.com
+学历：本科
+工作年限：应届生
+意向岗位：Java后端开发
 
-# 邓依伦
+教育背景
+肇庆学院 - 软件工程 2021.09 ~2025.07
 
-- 联系方式：13631902746
-- 邮件：lanendiencgr@gmail.com
+获奖荣誉
 
->
+连续三年获得国家励志奖学金 (2022年、2023年、2024年)
+校级一等奖学金、陈熹奖学金(年级唯一) 2024年
+2024粤港澳大湾区IT应用系统开发大赛(肇庆赛区)二等奖 2024年
+第十五届蓝桥杯广东赛区C/C++程序设计大学B组三等奖 2024年
+连续两年获得校级二等奖学金 (2022年、2023年)
+英语水平
 
-- [https://github.com/lanendiencgr2002](https://github.com/lanendiencgr2002)
+四级(556分)、六级(492分)
+具备良好听说读写能力 (2021年、2022年)
+专业技能
+Java基础：
 
->
+掌握Java基础知识，如集合框架、IO流、Stream流、反射机制等
+了解HashMap扩容机制
+熟悉Java开发中常见的设计模式，如工厂模式、单例模式等
+并发编程：
 
-- Java后端开发工程师
+熟悉Java中的并发容器，如ConcurrentHashMap、CopyOnWriteArrayList等
+对线程池、synchronized关键字、volatile关键字、ThreadLocal等有深入的理解
+JVM：
 
->
+熟悉Java虚拟机
+对常见垃圾回收器较为熟悉
+了解JVM调优
+MySQL：
 
-![头像](https://static.todev.cc/resume/avatar.svg)
+熟练使用MySQL数据库
+熟悉慢SQL的定位、索引、事务、存储引擎、锁机制和日志等原理
+具有一定的SQL优化能力
+框架：
 
-## 项目经历
+熟练使用Spring、SpringBoot、SpringMVC、MyBatis等主流开发框架
+掌握IOC、AOP、自动装配、循环依赖、Bean生命周期等
+Redis：
 
-### SaaS短链接系统
+熟悉Redis的常见数据类型和应用场景
+了解持久化、过期淘汰策略、分布式锁等特性
+能够解决高并发下的缓存穿透、雪崩、击穿问题
+消息队列：
 
-**项目描述**  
-负责开发和维护一个高性能的短链接管理平台，提供高效、安全和可靠的链接转换及管理服务。系统支持高并发访问，具备完善的监控分析功能，帮助用户优化链接管理和营销效果。
+熟悉RabbitMQ消息队列的应用
+熟悉消息可靠性、消息重复消费问题以及延迟消息队列等
+前端技能：
 
-**技术架构**  
-SpringBoot、SpringCloud Alibaba、RocketMQ、ShardingSphere、Redis、MySQL、Sentinel、Vue、ElementUI
+熟悉微信小程序开发，有独立开发部署上线微信小程序的经验（已上线微信小程序：诗林记忆栈）
+了解前端Vue2框架、ElementUI组件库、ECharts数据可视化库
+能开发简单的前端页面
+开发工具：
 
-**主要工作**
-- 使用布隆过滤器优化短链接查重逻辑，显著提升判断效率，相比传统分布式锁+数据库查询方案性能提升超过50%
-- 基于RocketMQ实现削峰填谷，解决高并发访问下的监控信息存储问题，系统稳定支持10000+ QPS
-- 设计并实现基于双重检查锁的缓存更新机制，有效减少缓存失效场景下的数据库访问压力
-- 使用Redisson分布式读写锁确保高并发下数据一致性，通过Redis实现消息幂等性处理
+了解Linux的常用命令
+熟练使用IDEA、Maven、Git、Postman等开发和测试工具
+项目经验
 
-## 专业技能
+开发者技术社区项目 技术栈：SpringBoot、Mybatis-Plus、MySQL、Redis、ElasticSearch、RabbitMQ、Docker
+项目描述：
 
-- 前端开发：熟悉HTML、CSS、JavaScript、jQuery等前端技术，能够使用Vue+ElementUI进行单页面应用开发
-- 后端开发：熟悉SpringBoot、SpringCloud、SpringCloud Alibaba、MyBatis、MyBatisPlus等后端技术
-- 语言：熟悉Python、Java（熟悉集合，反射机制，注解机制，多线程等）、Js、C++等语言
-- Mysql：熟悉分库分表，读写分离，sql优化，锁，MVCC等
-- Redis：熟悉主从复制，哨兵，集群，布隆过滤器，预热雪崩击穿穿透，淘汰策略等
-- RocketMQ：熟悉RocketMQ消息中间件，能够解决消息重复消费、顺序消费、消息丢失以及消息积压等常见问题
+开发者技术社区是一个前后端分离的，面向互联网开发者的技术内容分享与交流平台，包括前端PC和管理后台
+通过文章、教程、AI助手等产品和服务，旨在打造一个传播优质技术内容，陪伴开发者成长的技术社区
+个人职责：
 
-## 个人优势
+作为核心研发人员，主要负责登录认证、消息通知以及文章模块的开发工作
+核心技术：
 
-- 熟练运用AI开发：能够使用Cursor、V0.dev，GPT4，Claude3.5等AI工具辅助开发，提高开发效率
-- 技术栈丰富：熟悉Python电脑手机自动化爬虫Js逆向，Git，Docker，Nginx，Linux，云服务器运维，云服务使用，Autojs等
-- 查资料能力强：通过笔记等记录了大量技术文档与代码，能通过搜索或AI检索快速找到所需资料
+通过验证码和前端保持半长链接映射关系，实现系统自动登录
+将用户评论、点赞、收藏、系统消息发送到RabbitMQ，实现消息的异步解耦
+通过Redis实现计数统计和用户活跃度排行
+基于ThreadLocal在登录校验拦截器中封装线程隔离的全局上下文
+借助Redis的ZSet数据结构实现轻量级的作者白名单
+采用自旋锁策略优化缓存架构，防止缓存击穿
+诗林记忆栈小程序（已上线） 技术栈：SpringBoot、MySQL、MyBatis、Redis、Vue2、腾讯云对象存储、宝塔Linux面板、腾讯云轻量应用服务器
+项目描述：
 
-## 教育经历
-### 肇庆学院
+诗林记忆栈小程序是一个古诗词学习系统，分为PC端和小程序端
+小程序端功能：诗词浏览、诗人浏览、诗词背诵、诗词收藏、热门诗词推荐、诗词诗人信息查询、诗单创建以及智能助手提问功能
+PC端功能：用户管理、诗词管理、诗人管理
+个人职责：
 
-|   专业   |       时间        |
-| :------: | :---------------: |
-| 软件工程 | 2021.09 - 2025.06 |
+项目主要负责人，全栈开发
+负责前端的页面设计以及后端全部功能模块的实现
+核心技术：
 
-<p style="
-    display: flex;
-    justify-content: center;
-    padding: 0.5rem 0;
-">
-  <img src="//github-readme-stats.vercel.app/api?username=Dunqing&show_icons=true&icon_color=CE1D2D&text_color=718096&bg_color=ffffff&hide_title=true" />
-</p> 
+使用Redis缓存数据，提高系统性能
+使用腾讯云对象存储服务存储系统图片
+通过宝塔Linux面板部署后端代码
+通过延时双删策略实现MySQL数据与Redis缓存的双写一致性
+PC端使用Session/Cookie实现用户身份识别
+潮鞋e站 技术栈：Vue2、Axios、ECharts、SpringBoot、JWT、MySQL、MyBatis、Redis、RabbitMQ
+项目描述：
+
+潮鞋e站购物网站提供在线购物体验
+功能模块：登录注册、用户功能、商品功能、购物车功能、订单功能、支付功能等
+个人职责：
+
+项目技术主要负责人，全栈开发
+核心技术：
+
+采用JWT令牌技术进行登录校验
+使用Axios异步请求后端处理数据
+采用ECharts数据可视化技术展示数据
+使用RabbitMQ实现支付服务与交易服务之间的订单状态一致性
+采用Redis进行数据缓存
+个人特质：
+
+具备快速学习和适应新技术、新工具的能力
+适应力强，可以较快融入团队，有团队责任感
+善于沟通，多次与同学沟通协作完成项目，获得一致好评

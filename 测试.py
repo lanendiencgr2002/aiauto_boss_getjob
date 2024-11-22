@@ -4,8 +4,8 @@ import time
 from DrissionPage import ChromiumPage, ChromiumOptions
 def 初始化dp():
     co = ChromiumOptions().set_local_port(9222)
+    co.set_timeouts(base=3)
     page = ChromiumPage(addr_or_opts=co)
-    page.timeout = 3
     return page
 page=初始化dp()
 
@@ -31,7 +31,21 @@ def 测试检查HR是否在线():
     有在线状态标签=drissionpage_utils.找一个元素(page,'tag:span@class=boss-online-tag')
     在线状态=有在线状态标签.text.strip()
     print(在线状态)
+
+def 获取详细信息():
+    print(page.ele('.job-detail-section').text)
+
+
+def 点击继续沟通():
+    page.ele('.btn btn-sure').click()
+
+def 自定义打招呼():
+    page.ele('#chat-input').input("你好呀\n")
+
 if __name__ == "__main__":
     # 测试点击按钮版的时长()
     # 测试随机查询岗位信息()
-    测试检查HR是否在线()
+    # 测试检查HR是否在线()
+    # 获取详细信息()
+    # 点击继续沟通()
+    # 自定义打招呼()

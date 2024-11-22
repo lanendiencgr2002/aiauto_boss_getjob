@@ -259,17 +259,30 @@ def 找工作需求(元素):
     return 找一个元素的文本(元素,'tag:div@class=job-sec-text')
 
 
-def AI决定是否与HR沟通(标签页,岗位信息列表,my_resume,匹配度):
+def AI决定是否与HR沟通(标签页,my_resume,config):
     '''
     自动ai判断是否推荐，如果推荐则立即沟通
     '''
-    初步分析结果,是否推荐=ai_utils.ai检查岗位匹配度(岗位信息列表,my_resume,匹配度=匹配度)
+    匹配度=config['匹配度']
+    岗位要求=获取详细信息(标签页)
+    初步分析结果,是否推荐=ai_utils.ai检查岗位匹配度(岗位要求,my_resume,匹配度=匹配度)
     # 用正则表达式获取推荐指数后第一个小数
-    推荐指数=re.search(r'推荐指数：(\d+\.\d+)',初步分析结果)
+    推荐指数=re.search(r'(\d+\.\d+)',初步分析结果)
     if 推荐指数:
         推荐指数=float(推荐指数.group(1))
         if 推荐指数>=匹配度 and 是否推荐.lower() == "true":
-            标签页.ele('text:立即沟通').click()
+            立即沟通=标签页.ele('text:立即沟通')
+            if 立即沟通:
+                立即沟通.click()
+            else:
+                return False,初步分析结果
+            已自定义打招呼=False
+            if config['自动打招呼']==False:
+                关闭自动打招呼沟通(标签页,config['打招呼自定义'])
+                已自定义打招呼=True
+            if config['打招呼自定义'] and 已自定义打招呼==False:
+                标签页.ele('.btn btn-sure').click()
+                标签页.ele('#chat-input').input(config['打招呼自定义']+"\n")
             return True,初步分析结果
     return False,初步分析结果
 
@@ -280,4 +293,9 @@ def 判断当前HR是否活跃(元素,config):
     if hr_active_time not in config['过滤不活跃的HR']:
         return True
     return False
+
+def 获取详细信息(tab):
+    return tab.ele('.job-detail-section').text
         
+def 关闭自动打招呼沟通(tab,自定义打招呼):
+    tab.ele('.input-area').input(自定义打招呼+'\n')
