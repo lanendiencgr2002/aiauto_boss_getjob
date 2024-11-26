@@ -11,7 +11,7 @@ is_really_write_log = True
 
 def 初始化dp():
     co = ChromiumOptions().set_local_port(9222)
-    co.set_timeouts=3
+    co.set_timeouts(base=3)
     page = ChromiumPage(addr_or_opts=co)
     return page
 
@@ -73,6 +73,8 @@ def 开投():
     总共经过ai过滤数量=0
     while 投递次数<=config['最大沟通次数']:
         一轮投递次数=投递次数
+        一轮查询次数=0
+        一轮ai过滤次数=0
         for 岗位 in 岗位列表:
             config['要查询的岗位']=岗位
             for 城市 in 城市列表:
@@ -81,14 +83,16 @@ def 开投():
                 开始时间=time.time()
                 岗位信息列表+=drissionpage_utils.随机查询岗位信息(page,config)
                 for _ in range(config['30次数超级加倍']):
-                    岗位信息列表+=drissionpage_utils.获取岗位信息点击按钮版(page,config,一页调试功能=True)
+                    岗位信息列表+=drissionpage_utils.获取岗位信息点击按钮版(page,config)
                     岗位信息列表+=drissionpage_utils.随机查询岗位信息(page,config)
                 print(f"查询岗位信息时间：{time.time()-开始时间}")
                 总共查询数量+=len(岗位信息列表)
+                一轮查询次数+=len(岗位信息列表)
                 os_utils.写入统计日志(f"随机查询岗位信息列表个数:{len(岗位信息列表)} 时间：{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}", 是否打印=log_print, 是否写入文件=is_really_write_log)
                 os_utils.写入日志(f"随机查询岗位信息:{岗位}岗位信息列表个数:{len(岗位信息列表)}", 是否打印=log_print, 是否写入文件=is_really_write_log)
                 岗位信息列表=ai_utils.AI过滤岗位(岗位信息列表,config,线程数=100)
                 总共经过ai过滤数量+=len(岗位信息列表)
+                一轮ai过滤次数+=len(岗位信息列表)
                 # 去掉岗位信息列表None元素
                 岗位信息列表 = [x for x in 岗位信息列表 if x is not None]
                 os_utils.写入统计日志(f"AI过滤初步后岗位列表个数:{len(岗位信息列表)} 时间：{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}", 是否打印=log_print, 是否写入文件=is_really_write_log)
@@ -105,7 +109,7 @@ def 开投():
                     for 单个岗位信息 in 岗位信息列表:
                         处理单个岗位(单个岗位信息, 新标签页列表[0])
         一轮投递次数=投递次数-一轮投递次数
-        os_utils.写入统计日志(f"一轮查询结束，一轮投递次数：{一轮投递次数} 总共查询数量:{总共查询数量} 总共经过ai过滤数量:{总共经过ai过滤数量} 时间：{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}", 是否打印=log_print, 是否写入文件=is_really_write_log)   
+        os_utils.写入统计日志(f"一轮查询结束，一轮投递次数：{一轮投递次数} 一轮查询数量:{一轮查询次数} 一轮经过ai过滤数量:{一轮ai过滤次数} 时间：{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}", 是否打印=log_print, 是否写入文件=is_really_write_log)   
     os_utils.写入统计日志(f"总共查询数量:{总共查询数量} 总共经过ai过滤数量:{总共经过ai过滤数量} 时间：{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}", 是否打印=log_print, 是否写入文件=is_really_write_log)   
     os_utils.写入统计日志(f"投递次数：{投递次数} 时间：{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}", 是否打印=log_print, 是否写入文件=is_really_write_log)   
     for 标签页 in 新标签页列表:

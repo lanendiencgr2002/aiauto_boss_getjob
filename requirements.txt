@@ -1,0 +1,5 @@
+DrissionPage==4.1.0.12
+aiohttp==3.9.3
+asyncio
+concurrent
+threading

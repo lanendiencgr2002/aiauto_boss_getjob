@@ -87,7 +87,9 @@ def 找一个元素的文本(元素,条件:str):
 def 创建多个标签页对象(page,标签页数量=5):
     return [page.new_tab() for _ in range(标签页数量)]
 
-def 获取岗位信息点击按钮版(page,config,一页调试功能=False):
+def 获取岗位信息点击按钮版(page,config):
+
+    下一页次数=config['下一页次数']
     url="https://www.zhipin.com/web/geek/job?"+"city="+str(config['要查询的城市'])+"&query="+str(config['要查询的岗位'])
     page.get(url)
     岗位信息列表 = []
@@ -102,13 +104,15 @@ def 获取岗位信息点击按钮版(page,config,一页调试功能=False):
                 'job_salary': 岗位薪资,
                 'job_link': 岗位链接
             })
-        if 一页调试功能:break
+        if 下一页次数<=0:
+            break
         try:
             下一页按钮 = 找一个元素(page,'.ui-icon-arrow-right')
             没有下一页标识=找一个元素的属性(下一页按钮.parent(),None,'class')
             if "disabled" in 没有下一页标识:
                 break
             下一页按钮.click()
+            下一页次数-=1
         except:
             break
     return 岗位信息列表
