@@ -65,7 +65,7 @@ pip install -r requirements.txt
    - 设置学历要求
    - 设置薪资范围
 4. 在`我的简历.txt`中填入您的简历内容
-5. 启动本地AI服务（端口5000）
+5. 启动本地AI服务（端口5000） 本仓库有个local_ai_sever可启动本地ai服务
 6. 运行 `main.py`
 
 ## 注意事项
