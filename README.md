@@ -75,6 +75,7 @@ pip install -r requirements.txt
    - `本次面试运行日志.txt`：实时运行日志（每次运行清空）
    - `已投递的岗位.txt`：累计投递记录（追加模式）
    - `统计日志.txt`：每轮循环的统计数据（追加模式）
+4. 仅供学习参考使用，请勿用于非正规用途。
 
 ## 致谢
 本项目基于 [SanThousand/auto_get_jobs](https://github.com/SanThousand/auto_get_jobs) 重构，感谢原作者的开源贡献。
