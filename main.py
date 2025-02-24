@@ -74,11 +74,11 @@ def 开投():
     while 投递次数<=config['最大沟通次数']:
         一轮投递次数=投递次数
         一轮查询次数=0
-        一轮ai过滤次数=0
+        一轮ai过滤次数=0           
         for 岗位 in 岗位列表:
             config['要查询的岗位']=岗位
             for 城市 in 城市列表:
-                config['要查询的城市']=城市
+                config['要查询的城市']=城市             
                 岗位信息列表=[]
                 开始时间=time.time()
                 岗位信息列表+=drissionpage_utils.随机查询岗位信息(page,config)
