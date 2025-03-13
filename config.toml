@@ -1,0 +1,90 @@
+# 要查询的岗位
+job_positions = ["java"]
+# 要查询的城市 0表示不限制
+target_cities = ["0"]
+# 薪资范围 处于这个范围内就投
+salary_range = "6-25k"
+# 查找薪资范围
+search_salary_range = "403"
+# 学历筛选
+education_filter = "本科"
+# 经验要求
+experience_requirement = "102"
+# 学历要求
+education_requirement = ""
+# 工作类型
+job_type = ""
+# 行业
+industry = ""
+# 30的次数
+batch_count = 2
+# 标签页数量
+tab_count = 3
+# 匹配度
+match_rate = 0.8
+# 每页数量
+items_per_page = 30
+# 下一页次数
+next_page_count = 2
+# 30次数超级加倍
+batch_multiplier = 0
+# 沟通次数 在多线程的极端情况下会高于这个次数(多出的为标签页个数)
+max_chat_count = 100
+# AI过滤岗位名线程数
+ai_filter_threads = 100
+
+# 布尔值配置
+# 只要岗位名称中有实习的岗位
+only_internship = false
+# 不过滤当前实习岗位
+no_filter_internship = false
+# 用多线程ai过滤和投简历
+use_multi_thread = true
+# 日志打印
+print_logs = false
+# 日志写入文件
+write_logs = true
+# 是否开启自动招呼
+auto_greeting_setting = false
+# 是否使用自定义打招呼语
+auto_greeting = true
+
+# 自定义消息
+# 打招呼自定义 如果已经boss直聘系统设置了打招呼语，也可以发送这里自定义的
+# 备用 您好!我是邓依伦，是软件工程专业全日制本科生，25年应届生。在校期间积极参与IT应用大赛、蓝桥杯等竞赛。英语四级已过。技术栈丰富，熟悉Java，SpringBoot，MySQL，Redis等（完整技术栈可以看下我的附件简历），能够独立完成开发。希望能进一步了解贵公司对应岗位，您可以先看看我的简历，期待您的回复!
+custom_greeting = """
+您好，我是25届的学生，目前在寻找工作机会。在大学期间，我积极参与ACM竞赛并获得过奖项。我专注于学习 Java  后端开发知识，同时也涉猎一定的前端技术。我有扎实的基础，擅长分析和解决问题，具备良好的团队交流能力。同时，我也经过两段实习经历，极大的提升了我的整体能力，不仅仅是代码的编写能力，还有团队合作交流、文档编写等。我希望能够获得贵司的机会，展示我的才能并为公司贡献力量。感谢您的考虑！
+"""
+
+
+# 不合适岗位关键词
+unsuitable_keywords = [
+    "诚聘",
+    "小朋友", 
+    "底薪",
+    "月入",
+    "五险一金",
+    "晋升",
+    "兼职"
+]
+
+# 过滤不活跃的HR
+inactive_hr_filters = [
+    "本月活跃",
+    "2月内内活跃",
+    "3月内活跃", 
+    "4月内活跃",
+    "5月内活跃",
+    "半年前活跃"
+]
+
+# 注释说明
+[comments]
+education_filter = "学历筛选：初中及以下：209，中专/中技: 208，高中：206，大专：202，本科：203，硕士：204，博士：205"
+job_positions = "岗位列表，多个岗位之间用英文逗号隔开"
+target_cities = "城市列表，多个城市之间用英文逗号隔开"
+batch_count = "30的次数，默认1次，如果想要多次查询，可以设置为3次，那么就会查询3次，每次查询30个岗位信息"
+batch_multiplier = "多查询(30的次数*30+30)*次数个岗位"
+experience_requirement = "在boos_config.json中有定义码"
+max_chat_count = "沟通次数，默认50次，沟通完就停止了，最多1天100次沟通"
+tab_count = "标签页数量，默认5个，可以设置为10个，那么就会打开10个标签页，同时沟通hr"
